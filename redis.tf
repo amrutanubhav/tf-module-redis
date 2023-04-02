@@ -8,7 +8,7 @@ resource "aws_elasticache_cluster" "redis" {
   parameter_group_name = aws_elasticache_parameter_group.redis-pg.name
   engine_version       = "6.x"
   security_group_ids   = [aws_security_group.allow_redis.id]
-  subnet_group_name    = aws_docdb_subnet_group.redis-sg.name
+  subnet_group_name    = aws_elasticache_subnet_group.redis-sg.name
   port                 = 6379
 }
 
@@ -20,11 +20,20 @@ resource "aws_elasticache_parameter_group" "redis-pg" {
 }
 
 #creates subnet group
-resource "aws_docdb_subnet_group" "redis-sg" {
+# resource "aws_docdb_subnet_group" "redis-sg" {
+#   name       = "roboshop-${var.ENV}-redis-sg"
+#   subnet_ids = data.terraform_remote_state.vpc.outputs.PRIVATE_SUBNET_IDS
+
+#   tags = {
+#     Name = "roboshop-${var.ENV}-redis-subnet-grp"
+#   }
+# }
+
+resource "aws_elasticache_subnet_group" "redis-sg" {
   name       = "roboshop-${var.ENV}-redis-sg"
   subnet_ids = data.terraform_remote_state.vpc.outputs.PRIVATE_SUBNET_IDS
-
-  tags = {
+ 
+ tags = {
     Name = "roboshop-${var.ENV}-redis-subnet-grp"
   }
 }
