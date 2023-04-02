@@ -5,22 +5,23 @@ resource "aws_elasticache_cluster" "redis" {
   engine               = "redis"
   node_type            = "cache.t3.micro"
   num_cache_nodes      = 1
-  parameter_group_name = aws_elasticache_parameter_group.redis.name
+  parameter_group_name = aws_elasticache_parameter_group.redis-pg.name
   engine_version       = "6.x"
   security_group_ids   = [aws_security_group.allow_redis.id]
-  subnet_group_name    = aws_elasticache_parameter_group.redis.name
+  subnet_group_name    = aws_docdb_subnet_group.redis-sg.name
   port                 = 6379
 }
 
 ##creates a parameter group
 
-resource "aws_elasticache_parameter_group" "redis" {
+resource "aws_elasticache_parameter_group" "redis-pg" {
   name   = "roboshop-${var.ENV}-redis-pg"
   family = "redis6.x"
+}
 
 #creates subnet group
-resource "aws_docdb_subnet_group" "redis" {
-  name       = "roboshop-${var.ENV}-redis-subnet-grp"
+resource "aws_docdb_subnet_group" "redis-sg" {
+  name       = "roboshop-${var.ENV}-redis-sg"
   subnet_ids = data.terraform_remote_state.vpc.outputs.PRIVATE_SUBNET_IDS
 
   tags = {
@@ -37,7 +38,7 @@ resource "aws_docdb_subnet_group" "redis" {
   #   name  = "min-slaves-to-write"
   #   value = "2"
   # }
-}
+
 
 # resource "aws_docdb_cluster" "docdb" {
 #   cluster_identifier      = "roboshop-${var.ENV}-docdb"
