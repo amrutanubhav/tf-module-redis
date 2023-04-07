@@ -18,7 +18,7 @@ resource "aws_elasticache_cluster" "redis" {
 #   family = "redis6.x"
 # }
 
-creates subnet group
+# creates subnet group
 resource "aws_elasticache_subnet_group" "redis-sg" {
   name       = "roboshop-${var.ENV}-redis-sg"
   subnet_ids = data.terraform_remote_state.vpc.outputs.PRIVATE_SUBNET_IDS
