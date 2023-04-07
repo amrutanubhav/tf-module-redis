@@ -18,14 +18,27 @@ resource "aws_elasticache_parameter_group" "redis-pg" {
   family = "redis6.x"
 }
 
-#creates subnet group
-resource "aws_elasticache_subnet_group" "redis-sg" {
-  name       = "roboshop-${var.ENV}-redis-sg"
-  subnet_ids = data.terraform_remote_state.vpc.outputs.PRIVATE_SUBNET_IDS
+# #creates subnet group
+# resource "aws_elasticache_subnet_group" "redis-sg" {
+#   name       = "roboshop-${var.ENV}-redis-sg"
+#   subnet_ids = data.terraform_remote_state.vpc.outputs.PRIVATE_SUBNET_IDS
  
+# }
+
+resource "aws_elasticache_parameter_group" "redis-pg" {
+  name   = "roboshop-${var.ENV}-redis-pg"
+  family = "redis6.x"
+
+  # parameter {
+  #   name  = "activerehashing"
+  #   value = "yes"
+  # }
+
+  # parameter {
+  #   name  = "min-slaves-to-write"
+  #   value = "2"
+  # }
 }
-
-
 # resource "aws_docdb_subnet_group" "redis-sg" {
 #   name       = "roboshop-${var.ENV}-redis-sg"
 #   subnet_ids = data.terraform_remote_state.vpc.outputs.PRIVATE_SUBNET_IDS
