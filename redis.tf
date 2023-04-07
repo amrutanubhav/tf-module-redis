@@ -12,11 +12,11 @@ resource "aws_elasticache_cluster" "redis" {
   port                 = 6379
 }
 
-# ##creates a parameter group
-# resource "aws_elasticache_parameter_group" "redis-pg" {
-#   name   = "roboshop-${var.ENV}-redis-pg"
-#   family = "redis6.x"
-# }
+#creates a parameter group
+resource "aws_elasticache_parameter_group" "redis-pg" {
+  name   = "roboshop-${var.ENV}-redis-pg"
+  family = "redis6.x"
+}
 
 # creates subnet group
 resource "aws_elasticache_subnet_group" "redis-sg" {
