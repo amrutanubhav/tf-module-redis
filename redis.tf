@@ -5,14 +5,14 @@ resource "aws_elasticache_cluster" "redis" {
   engine               = "redis"
   node_type            = "cache.t3.micro"
   num_cache_nodes      = 1
-  parameter_group_name = aws_elasticache_parameter_group.redis-pg1.id
+  parameter_group_name = aws_elasticache_parameter_group.redis-pg.name
   engine_version       = "6.x"
   security_group_ids   = [aws_security_group.allow_redis.id]
   subnet_group_name    = aws_elasticache_subnet_group.redis-sg.name
   port                 = 6379
 }
 #creates a parameter group
-resource "aws_elasticache_parameter_group" "redis-pg1" {
+resource "aws_elasticache_parameter_group" "redis-pg" {
   name   = "roboshop-${var.ENV}-redis-pg"
   family = "redis6.x"
 }
